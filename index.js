@@ -1,70 +1,77 @@
-var lSensor = require('bindings')('LightSensor')
-var EventEmitter = require('events').EventEmitter;
-var inherits = require('util').inherits;
-
-function LightSensor(_port, _add = 0){
-  EventEmitter.call(this);
-  var _self = this;
-  this.light = new lSensor(_port,_add);
-
- process.on('SIGINT', function () {
-    _self.light.release();
-  });
-
- process.on('SIGTERM', function () {
-    _self.light.release();
-  });
-}
-
+const LSensor = require('bindings')('LightSensor');
+const EventEmitter = require('events').EventEmitter;
+const inherits = require('util').inherits;
 /**
-  Devuelve el valor de la señal medida por el sensor, este valor va de 0-5, y tiene puntos decimales.
-  La resolución es de 11 bits.
-**/
-LightSensor.prototype.getValue = function(){
+ * Creates an instance of temperature.
+ * @param {int} port The port number where this component us connected.
+ * @param {int} add The second argument.
+ * @returns {int} The sum of the two numbers.
+ */
+function LightSensor(port, add = 0) {
+  const self = this;
+  EventEmitter.call(this);
+  this.light = new LSensor(port, add);
+
+  process.on('SIGINT', () => {
+    self.light.release();
+  });
+
+  process.on('SIGTERM', () => {
+    self.light.release();
+  });
+}
+
+ /* Devuelve el valor de la señal medida por el sensor, este valor va de 0-5,
+  y tiene puntos decimales. La resolución es de 11 bits.
+ * @returns {int} returns a float between 0-5.
+ */
+LightSensor.prototype.getValue = function getValue() {
   return this.light.getValue();
-}
+};
 
-LightSensor.prototype.getBasicValue = function(){ // Rounded
-  var value = Math.round(this.light.getValue() * 100)/100
+LightSensor.prototype.getBasicValue = function getBasicValue() { // Rounded
+  const value = Math.round(this.light.getValue() * 100) / 100;
   return value;
-}
+};
 
-LightSensor.prototype.getScaledValue = function(){
+LightSensor.prototype.getScaledValue = function getScaledValue() {
   return this.light.getScaledValue();
-}
+};
 
-LightSensor.prototype.getBasicScaledValue = function(){
+LightSensor.prototype.getBasicScaledValue = function getBasicScaledValue() {
   return this.light.getBasicScaledValue();
-}
+};
 
-LightSensor.prototype.enableEvents = function (){
-  var _self = this;
-  var scaledValue;
-  if(!this.eventInterval){
-    this.eventInterval = setInterval(()=>{
-       scaledValue = this.light.getBasicScaledValue();
-       _self.emit('medicion',scaledValue);
-     }, 500); // Tomar mediciones cada 500ms
+LightSensor.prototype.enableEvents = function enableEvents() {
+  const self = this;
+  let scaledValue;
+  if (!this.eventInterval) {
+    this.eventInterval = setInterval(() => {
+      scaledValue = this.light.getBasicScaledValue();
+      self.emit('medicion', scaledValue);
+    }, 500); // Tomar mediciones cada 500ms
   }
-}
+};
 
-LightSensor.prototype.when = function(value, callback) {
+LightSensor.prototype.when = function when(value, callback) {
   if (!this.interval) {
-    this.interval = setInterval(()=>{
-      console.log('Luz:' + this.light.getBasicScaledValue());
+    this.interval = setInterval(() => {
+      /* eslint-disable no-console */
+      console.log(`Luz:${this.light.getBasicScaledValue()}`);
+      /* eslint-disable eqeqeq */
       if (this.light.getBasicScaledValue() == value) {
         callback();
       }
     }, 500); // Tomar mediciones cada 500ms
   }
-}
+};
 
-LightSensor.prototype.release = function() {
+LightSensor.prototype.release = function release() {
   clearInterval(this.interval);
   clearInterval(this.eventInterval);
   this.light.release();
-}
+};
 
-inherits(LightSensor,EventEmitter);
+inherits(LightSensor, EventEmitter);
 
 module.exports = LightSensor;
