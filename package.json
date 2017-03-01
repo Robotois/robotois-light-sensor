@@ -12,6 +12,9 @@
   "author": "yovany.lg@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "bindings": "^1.2.1"
+  },
+  "dependencies": {
     "bindings": "^1.2.1",
     "nan": "^2.3.5"
   },
