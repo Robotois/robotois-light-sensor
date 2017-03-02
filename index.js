@@ -5,7 +5,7 @@ const inherits = require('util').inherits;
  * Creates an instance of LightSensor.
  * @param {int} port The port number where this component us connected.
  * @param {int} add The second argument.
- * @returns {LightSensor} 
+ * @returns {LightSensor} LightSensor object.
  */
 function LightSensor(port, add = 0) {
   const self = this;

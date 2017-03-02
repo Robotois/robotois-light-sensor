@@ -1,23 +1,17 @@
-var _light = require('../index'),
-  light = new _light(3);
+const LightSensor = require('../index');
 
-light.when(3,()=>{
-  console.log("Wow, la intensidad de luz es 3!!");
+const light = new LightSensor(3);
+
+light.when(3, () => {
+  /* eslint-disable no-console */
+  console.log('Wow, la intensidad de luz es 3!!');
 });
+setInterval(() => {}, 10000);
 
-// setInterval(()=>{ // Proceso en estado ocioso
-//   console.log("Temp: " + temp.getValue().toFixed(3));
-//   console.log("Int: " + temp.getIntValue());
-// },1000);
-
-setInterval(()=>{ // Proceso en estado ocioso
-  true;
-},10000);
-
-process.on('SIGTERM', function () {
+process.on('SIGTERM', () => {
   process.exit();
 });
 
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
   process.exit();
 });
