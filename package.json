@@ -1,6 +1,6 @@
 {
   "name": "robotois-light-sensor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node library for the light sensor module",
   "main": "index.js",
   "scripts": {
