@@ -8,11 +8,11 @@ function LightSensor(_port, _add = 0){
   this.light = new lSensor(_port,_add);
 
  process.on('SIGINT', function () {
-    _self.light.release();
+    _self.release();
   });
 
  process.on('SIGTERM', function () {
-    _self.light.release();
+    _self.release();
   });
 }
 
@@ -60,8 +60,11 @@ LightSensor.prototype.when = function(value, callback) {
 }
 
 LightSensor.prototype.release = function() {
-  clearInterval(this.interval);
-  clearInterval(this.eventInterval);
+  if (this.interval)
+    clearInterval(this.interval);
+  if (this.interval)
+    clearInterval(this.eventInterval);
+
   this.light.release();
 }
 
