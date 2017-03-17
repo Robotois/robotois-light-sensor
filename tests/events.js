@@ -1,19 +1,19 @@
-var _light = require('../index'),
-  light = new _light(3);
+const LightSensor = require('../index');
+
+const light = new LightSensor(3);
 light.enableEvents();
 
-light.on('medicion',function(value){
-  console.log("Luz medida: "+value);
+light.on('medicion', (value) => {
+  /* eslint-disable no-console */
+  console.log(`Luz medida: ${value}`);
 });
 
-setInterval(()=>{ // Proceso en estado ocioso
-  true;
-},10000);
+setInterval(() => {}, 10000);
 
-process.on('SIGTERM', function () {
+process.on('SIGTERM', () => {
   process.exit();
 });
 
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
   process.exit();
 });

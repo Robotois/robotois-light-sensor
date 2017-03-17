@@ -1,7 +1,7 @@
-/* 
+/*
  * File:   LightSensor.cpp
  * Author: yova
- * 
+ *
  * Created on 26 de mayo de 2016, 01:52 PM
  */
 
@@ -70,7 +70,7 @@ int16_t LightSensor::getBasicScaledValue(){
 }
 
 void LightSensor::release(){
-    printf("[LightSensor] => Released\n");
-    analogModule->release();
+    // analogModule->release();
     delete analogModule;
+    printf("[LightSensor] => Released\n");
 }

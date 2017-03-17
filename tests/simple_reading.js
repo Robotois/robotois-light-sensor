@@ -1,19 +1,19 @@
-var _light = require('../index'),
-  light = new _light(3);
+const LightSensor = require('../index');
 
-setInterval(()=>{ // Proceso en estado ocioso
-  console.log("BasicValue: " + light.getBasicValue());
-  console.log("BasicScaledValue: " + light.getBasicScaledValue());
-},1000);
+const light = new LightSensor(3);
+setInterval(() => { // Proceso en estado ocioso
+  /* eslint-disable no-console */
+  console.log(`BasicValue: ${light.getBasicValue()}`);
+  /* eslint-disable no-console */
+  console.log(`BasicScaledValue: ${light.getBasicScaledValue()}`);
+}, 1000);
 
-setInterval(()=>{ // Proceso en estado ocioso
-  true;
-},10000);
+setInterval(() => {}, 10000);
 
-process.on('SIGTERM', function () {
+process.on('SIGTERM', () => {
   process.exit();
 });
 
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
   process.exit();
 });

@@ -1,15 +1,25 @@
 {
-  "name": "temperature",
-  "version": "1.0.0",
-  "description": "Node library for the temperature sensor and the analog module",
+  "name": "robotois-light-sensor",
+  "version": "1.0.1",
+  "description": "Node library for the light sensor module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "temp"
+    "light",
+    "sensor",
+    "robotois",
+    "IOT"
   ],
-  "author": "yovany.lg@gmail.com",
+  "author": "yovany@robotois.com",
+  "contributors": [
+    {
+      "name": "Armando Gonzalez",
+      "email": "iam@armando.mx",
+      "url": "http://armando.mx/"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "bindings": "^1.2.1"
