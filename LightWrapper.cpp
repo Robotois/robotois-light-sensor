@@ -32,9 +32,8 @@ void LightWrapper::Init(){
 
   // Prototype
   NODE_SET_PROTOTYPE_METHOD(tpl,"getValue",getValue);
-  // NODE_SET_PROTOTYPE_METHOD(tpl,"getBasicValue",getBasicValue);
+  NODE_SET_PROTOTYPE_METHOD(tpl,"getBasicValue",getBasicValue);
   NODE_SET_PROTOTYPE_METHOD(tpl,"getScaledValue",getScaledValue);
-  NODE_SET_PROTOTYPE_METHOD(tpl,"getBasicScaledValue",getBasicScaledValue);
 
   NODE_SET_PROTOTYPE_METHOD(tpl,"release",release);
 
@@ -115,14 +114,14 @@ void LightWrapper::getValue(const FunctionCallbackInfo<Value>& args){
   args.GetReturnValue().Set(Number::New(isolate,temp_obj->lightSensor->getValue()));
 }
 
-// void LightWrapper::getBasicValue(const FunctionCallbackInfo<Value>& args){
-//   Isolate* isolate = Isolate::GetCurrent();
-//   HandleScope scope(isolate);
-//
-//   LightWrapper* temp_obj = ObjectWrap::Unwrap<LightWrapper>(args.Holder());
-//
-//   args.GetReturnValue().Set(Number::New(isolate,temp_obj->lightSensor->getBasicValue()));
-// }
+void LightWrapper::getBasicValue(const FunctionCallbackInfo<Value>& args){
+  Isolate* isolate = Isolate::GetCurrent();
+  HandleScope scope(isolate);
+
+  LightWrapper* temp_obj = ObjectWrap::Unwrap<LightWrapper>(args.Holder());
+
+  args.GetReturnValue().Set(Number::New(isolate,temp_obj->lightSensor->getBasicValue()));
+}
 
 void LightWrapper::getScaledValue(const FunctionCallbackInfo<Value>& args){
   Isolate* isolate = Isolate::GetCurrent();
@@ -131,13 +130,4 @@ void LightWrapper::getScaledValue(const FunctionCallbackInfo<Value>& args){
   LightWrapper* temp_obj = ObjectWrap::Unwrap<LightWrapper>(args.Holder());
 
   args.GetReturnValue().Set(Number::New(isolate,temp_obj->lightSensor->getScaledValue()));
-}
-
-void LightWrapper::getBasicScaledValue(const FunctionCallbackInfo<Value>& args){
-  Isolate* isolate = Isolate::GetCurrent();
-  HandleScope scope(isolate);
-
-  LightWrapper* temp_obj = ObjectWrap::Unwrap<LightWrapper>(args.Holder());
-
-  args.GetReturnValue().Set(Number::New(isolate,temp_obj->lightSensor->getBasicScaledValue()));
 }

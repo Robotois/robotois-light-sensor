@@ -30,44 +30,34 @@ LightSensor.prototype.getValue = function getValue() {
 };
 
 LightSensor.prototype.getBasicValue = function getBasicValue() { // Rounded
-  const value = Math.round(this.light.getValue() * 100) / 100;
-  return value;
+  return this.light.getBasicValue();
 };
 
 LightSensor.prototype.getScaledValue = function getScaledValue() {
   return this.light.getScaledValue();
 };
 
-LightSensor.prototype.getBasicScaledValue = function getBasicScaledValue() {
-  return this.light.getBasicScaledValue();
-};
-
 LightSensor.prototype.enableEvents = function enableEvents() {
-  const self = this;
-  let scaledValue;
   if (!this.eventInterval) {
+    let scaledValue;
     this.eventInterval = setInterval(() => {
-      scaledValue = this.light.getBasicScaledValue();
-      self.emit('medicion', scaledValue);
+      scaledValue = this.light.getScaledValue();
+      this.emit('medicion', scaledValue);
     }, 500); // Tomar mediciones cada 500ms
   }
 };
 
 LightSensor.prototype.when = function when(value, callback) {
-  if (!this.interval) {
-    this.interval = setInterval(() => {
-      /* eslint-disable no-console */
-      console.log(`Luz:${this.light.getBasicScaledValue()}`);
-      /* eslint-disable eqeqeq */
-      if (this.light.getBasicScaledValue() == value) {
-        callback();
-      }
-    }, 500); // Tomar mediciones cada 500ms
-  }
+  this.enableEvents();
+  this.on('medicion', (light) => {
+    console.log(`Luz:${light}`);
+    if (value == light) {
+      callback();
+    }
+  });
 };
 
 LightSensor.prototype.release = function release() {
-  clearInterval(this.interval);
   clearInterval(this.eventInterval);
   this.light.release();
 };

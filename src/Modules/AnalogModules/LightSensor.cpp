@@ -1,7 +1,7 @@
-/*
+/* 
  * File:   LightSensor.cpp
  * Author: yova
- *
+ * 
  * Created on 26 de mayo de 2016, 01:52 PM
  */
 
@@ -14,8 +14,8 @@
 LightSensor::LightSensor(uint8_t _addr) {
     analogModule = new ADS1015(_addr);
 //    scaleFactor = 1024.0f/2048.0f;
-    scaleFactor = 1024.0f/1700.0f; // - usin a gain of ADS1015_6144_GAIN, 1700.0 => 5.1v
-    basicScaleFactor = 10.0f/1700.0f; // - usin a gain of ADS1015_6144_GAIN, 1700.0 => 5.1v
+//    basicScaleFactor = 10.0f/1700.0f; // - usin a gain of ADS1015_6144_GAIN, 1700.0 => 5.1v
+    scaleFactor = 10.0f/1700.0f; // - usin a gain of ADS1015_6144_GAIN, 1700.0 => 5.1v
 }
 
 LightSensor::LightSensor(const LightSensor& orig) {
@@ -45,32 +45,40 @@ void LightSensor::selectPort(uint8_t _port){
     }
 }
 
+/**
+ * Get the value of the analog signal input, the input signal is in the range of
+ * 0-5 volts.
+ * @return 
+ */
 float LightSensor::getValue(){
     selectPort(inputPort);
     float reading = analogModule->readInput();
     return reading;
 }
 
-//float LightSensor::getBasicValue(){
+/**
+ * The basic value is limited to the range of 0-10, and this value is given in 
+ * float format.
+ * @return 
+ */
+float LightSensor::getBasicValue(){
+    selectPort(inputPort);
+    int16_t input = analogModule->readRawInput();
+    return (float) (input * scaleFactor);
+}
+
+uint8_t LightSensor::getScaledValue(){
+    return (uint8_t)(std::round(getBasicValue()));
+}
+
+//int16_t LightSensor::getBasicScaledValue(){
 //    selectPort(inputPort);
-//    float reading = ((int16_t)(analogModule->readInput() * 100.0f))/100.0f;
-//    return reading;
+//    int16_t input = analogModule->readRawInput();
+//    return (int16_t)(std::round(input * basicScaleFactor));
 //}
 
-int16_t LightSensor::getScaledValue(){
-    selectPort(inputPort);
-    int16_t input = analogModule->readRawInput();
-    return (int16_t)(std::round(input * scaleFactor));
-}
-
-int16_t LightSensor::getBasicScaledValue(){
-    selectPort(inputPort);
-    int16_t input = analogModule->readRawInput();
-    return (int16_t)(std::round(input * basicScaleFactor));
-}
-
 void LightSensor::release(){
-    // analogModule->release();
-    delete analogModule;
     printf("[LightSensor] => Released\n");
+    analogModule->release();
+    delete analogModule;
 }

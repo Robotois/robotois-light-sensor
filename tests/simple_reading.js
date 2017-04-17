@@ -2,13 +2,12 @@ const LightSensor = require('../index');
 
 const light = new LightSensor(3);
 setInterval(() => { // Proceso en estado ocioso
-  /* eslint-disable no-console */
+  console.log(`Luz: ${light.getValue()}`);
+  // console.log(`Luz: ${light.getValue().toFixed(2)}`);
   console.log(`BasicValue: ${light.getBasicValue()}`);
-  /* eslint-disable no-console */
-  console.log(`BasicScaledValue: ${light.getBasicScaledValue()}`);
+  // console.log(`BasicValue: ${light.getBasicValue().toFixed(2)}`);
+  console.log(`ScaledValue: ${light.getScaledValue()}\n`);
 }, 1000);
-
-setInterval(() => {}, 10000);
 
 process.on('SIGTERM', () => {
   process.exit();

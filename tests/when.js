@@ -6,7 +6,6 @@ light.when(3, () => {
   /* eslint-disable no-console */
   console.log('Wow, la intensidad de luz es 3!!');
 });
-setInterval(() => {}, 10000);
 
 process.on('SIGTERM', () => {
   process.exit();
