@@ -3,7 +3,7 @@
 
 #include <node.h>
 #include <node_object_wrap.h>
-#include "src/Modules/AnalogModules/LightSensor.h"
+#include "../LightSensor.h"
 
 class LightWrapper : public node::ObjectWrap {
 public:

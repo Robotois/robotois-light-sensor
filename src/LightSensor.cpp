@@ -1,13 +1,13 @@
-/* 
+/*
  * File:   LightSensor.cpp
  * Author: yova
- * 
+ *
  * Created on 26 de mayo de 2016, 01:52 PM
  */
 
 #include <stdint.h>
 #include <stdlib.h>
-#include<iostream>
+#include <iostream>
 #include <cmath>
 #include "LightSensor.h"
 
@@ -48,7 +48,7 @@ void LightSensor::selectPort(uint8_t _port){
 /**
  * Get the value of the analog signal input, the input signal is in the range of
  * 0-5 volts.
- * @return 
+ * @return
  */
 float LightSensor::getValue(){
     selectPort(inputPort);
@@ -57,9 +57,9 @@ float LightSensor::getValue(){
 }
 
 /**
- * The basic value is limited to the range of 0-10, and this value is given in 
+ * The basic value is limited to the range of 0-10, and this value is given in
  * float format.
- * @return 
+ * @return
  */
 float LightSensor::getBasicValue(){
     selectPort(inputPort);

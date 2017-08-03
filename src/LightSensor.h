@@ -1,4 +1,4 @@
-/* 
+/*
  * File:   LightSensor.h
  * Author: yova
  *
@@ -7,19 +7,19 @@
 
 #ifndef LIGHTSENSOR_H
 #define	LIGHTSENSOR_H
-#include"../../Libraries/ADS1015/ADS1015.h"
+#include "./libraries/robotois-ADS1015/ADS1015.h"
 
 class LightSensor {
-public:    
+public:
     LightSensor(uint8_t _addr = 0x00);
     LightSensor(const LightSensor& orig);
     virtual ~LightSensor();
-    
+
     void selectPort(uint8_t _port);
     float getValue();
     float getBasicValue();
-    uint8_t getScaledValue();    
-//    int16_t getBasicScaledValue();    
+    uint8_t getScaledValue();
+//    int16_t getBasicScaledValue();
     void release();
 private:
     ADS1015 *analogModule;
@@ -29,4 +29,3 @@ private:
 };
 
 #endif	/* LIGHTSENSOR_H */
-
