@@ -11,6 +11,7 @@ function LightSensor(port, add = 0) {
   const self = this;
   EventEmitter.call(this);
   this.light = new LSensor(port, add);
+  this.prevValue = -1;
 
   process.on('SIGINT', () => {
     self.light.release();
@@ -37,24 +38,26 @@ LightSensor.prototype.getScaledValue = function getScaledValue() {
   return this.light.getScaledValue();
 };
 
-LightSensor.prototype.enableEvents = function enableEvents() {
-  if (!this.eventInterval) {
-    let scaledValue;
-    this.eventInterval = setInterval(() => {
-      scaledValue = this.light.getScaledValue();
-      this.emit('medicion', scaledValue);
-    }, 500); // Tomar mediciones cada 500ms
-  }
+LightSensor.prototype.publishNow = function publishNow() {
+  this.mqttClient.publish(this.myTopic, this.light.getScaledValue().toString());
 };
 
-LightSensor.prototype.when = function when(value, callback) {
-  this.enableEvents();
-  this.on('medicion', (light) => {
-    console.log(`Luz:${light}`);
-    if (value == light) {
-      callback();
-    }
-  });
+LightSensor.prototype.enableEvents = function enableEvents(mqttConfig) {
+  if (mqttConfig) {
+    this.mqttClient = mqttConfig.mqttClient;
+    this.myTopic = `sensors/light${mqttConfig.instance}`;
+    this.mqttClient.publish('registerTopic', this.myTopic);
+  }
+  if (!this.eventInterval) {
+    this.eventInterval = setInterval(() => {
+      const currentValue = this.light.getScaledValue();
+      this.emit('medicion', currentValue);
+      if (this.prevValue !== currentValue && this.mqttClient) {
+        this.mqttClient.publish(this.myTopic, currentValue.toString());
+        this.prevValue = currentValue;
+      }
+    }, 250);
+  }
 };
 
 LightSensor.prototype.release = function release() {
