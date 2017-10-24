@@ -20,6 +20,11 @@
       "url": "http://armando.mx/"
     }
   ],
+  "homepage": "https://github.com/Robotois/robotois-light-sensor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Robotois/robotois-light-sensor.git"
+  },
   "license": "ISC",
   "dependencies": {
     "bindings": "^1.2.1"
